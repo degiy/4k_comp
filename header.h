@@ -10,12 +10,12 @@
 class Header
 {
 public:
-    Header();
+	Header();
 
-    u32 type;
-    u32 version;
-    u32 header_size;
-    u32 nb_of_files;
+	u32 type;
+	u32 version;
+	u32 header_size;
+	u32 nb_of_files;
 };
 
 #endif

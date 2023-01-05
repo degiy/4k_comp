@@ -11,25 +11,25 @@ using namespace std;
 // like they were all glued one to another (with just eventual padding in the last 4k block)
 class File
 {
-    public:
-    File();
-    ~File();
+public:
+	File();
+	~File();
 
-  void *LoadFile(string &file_name, u32 file_id);  // Map file into memory
-    void UnloadFile();
+	void *LoadFile(string &file_name, u32 file_id);  // Map file into memory
+	void UnloadFile();
 
-    u64 size;                   // in bytes
-    u32 nb4k;                   // nb of 4k blocs (including padding)
-    u32 bytes_in_last_block;    // <=4096
-    u32 id;                     // id of file in list
-    void* addr;                 // pt on mapped file
+	u64 size;                   // in bytes
+	u32 nb4k;                   // nb of 4k blocs (including padding)
+	u32 bytes_in_last_block;    // <=4096
+	u32 id;                     // id of file in list
+	void* addr;                 // pt on mapped file
 
-    string name;                // file name
+	string name;                // file name
 
-    private:
-    void HandleError(const char* hint);
+private:
+	void HandleError(const char* hint);
 
-    int fd_;
+	int fd_;
 };
 
 

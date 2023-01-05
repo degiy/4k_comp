@@ -19,21 +19,21 @@
 
 class FileInHeader
 {
-    public:
-    FileInHeader();
-    void AddFile(const char* file_name);       // to process a file
-    static void SetHeaderAddress(Header *pth, char* ptc);   // to initialise address of header struct for file names offsets calculations
-    static char* FixPadding();                 // to call when last file to finalise header
+public:
+	FileInHeader();
+	void AddFile(const char* file_name);       // to process a file
+	static void SetHeaderAddress(Header *pth, char* ptc);   // to initialise address of header struct for file names offsets calculations
+	static char* FixPadding();                 // to call when last file to finalise header
 
-    u64 file_size;          // size of file in bytes
-    u32 offset_4k_of_file;  // begining of this file in the concatenation of all files to compress
-    u32 nb_4k_blocs;        // nb of 4k blocs used by file (last one can be not fullfilled)
-    u32 file_name_offset;   // location of file name in char* space after FileInHeader structs
-    u32 file_name_size;     // size of the file name char string (without 0 at the end)
+	u64 file_size;          // size of file in bytes
+	u32 offset_4k_of_file;  // begining of this file in the concatenation of all files to compress
+	u32 nb_4k_blocs;        // nb of 4k blocs used by file (last one can be not fullfilled)
+	u32 file_name_offset;   // location of file name in char* space after FileInHeader structs
+	u32 file_name_size;     // size of the file name char string (without 0 at the end)
 
-    private:
-    static Header* p_the_header_;
-    static char* p_loc_;       // to manage file name buffer
+private:
+	static Header* p_the_header_;
+	static char* p_loc_;       // to manage file name buffer
 };
 
 
