@@ -27,7 +27,7 @@ Compressor::Compressor(vector<string> &input_files)
 	//ParseBlocs();
 }
 
-void *Compressor::AddressByGlobalBlocId(u32 id_bloc)
+map<u32,File*>::iterator Compressor::MapEntryByGlobalBlocId(u32 id_bloc)
 {
 	// find the file with first bloc just equal or just after our bloc id
 	auto it=tree_4k_.lower_bound(id_bloc);
@@ -36,6 +36,20 @@ void *Compressor::AddressByGlobalBlocId(u32 id_bloc)
 		// we are just too far, we need to rewind one step to find the right file
 		--it;
 	}
+	return it;
+}
+
+File *Compressor::FileByGlobalBlocId(u32 id_bloc)
+{
+	// find the file with first bloc just equal or just after our bloc id
+	auto it=MapEntryByGlobalBlocId(id_bloc);
+	return it->second;
+}
+
+void *Compressor::AddressByGlobalBlocId(u32 id_bloc)
+{
+	// find the file with first bloc just equal or just after our bloc id
+	auto it=MapEntryByGlobalBlocId(id_bloc);
 	// we deduce the address of the bloc
 	u32 bloc_offset=id_bloc-it->first;
 	if (bloc_offset>=it->second->nb4k)

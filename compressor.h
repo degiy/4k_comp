@@ -14,10 +14,12 @@ class Compressor
 {
 public:
 	Compressor(vector<string> &input_files);
+	File* FileByGlobalBlocId(u32 id_bloc);
 	void* AddressByGlobalBlocId(u32 id_bloc);
 	void ParseBlocs();
 
 private:
+	map<u32,File*>::iterator MapEntryByGlobalBlocId(u32 id_bloc);
 	void MapFile(string &file);
 
 	vector<File> files_;
