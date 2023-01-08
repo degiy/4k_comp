@@ -62,6 +62,19 @@ void *Compressor::AddressByGlobalBlocId(u32 id_bloc)
 	return pt_bloc;
 }
 
+// 4k same bloc
+void Compressor::SameBlocs()
+{
+	// we use a table with as many entries as we have 4k blocs
+	HashTable4k table(last_bloc_id_);
+
+	for (u32 i=0;i<last_bloc_id_;i++)
+	{
+
+	}
+}
+
+
 // just for debug purposes
 void Compressor::ParseBlocs()
 {

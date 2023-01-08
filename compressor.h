@@ -3,6 +3,7 @@
 
 #include "file.h"
 #include "common.h"
+#include "hash_table_4k.h"
 
 #include <vector>
 #include <map>
@@ -19,6 +20,8 @@ public:
 	void ParseBlocs();
 
 private:
+	void SameBlocs();
+
 	map<u32,File*>::iterator MapEntryByGlobalBlocId(u32 id_bloc);
 	void MapFile(string &file);
 
