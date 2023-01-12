@@ -1,5 +1,6 @@
 #include "common.h"
 #include "compressor.h"
+#include "categorize_blocs.h"
 
 #include <iostream>
 #include <vector>
@@ -26,6 +27,12 @@ Compressor::Compressor(vector<string> &input_files)
 	}
 	last_bloc_id_=id_bloc;
 	SameBlocs();
+
+	ByteOccurrence bo[last_bloc_id_];
+	for (u32 i=0;i<last_bloc_id_;i++)
+	{
+		bo[i].ParseBloc(AddressByGlobalBlocId(i));
+	}
 	//ParseBlocs();
 }
 
