@@ -94,7 +94,16 @@ void ByteOccurrence::ParseBloc(void *ad_bloc)
 		if (cps[i++]>THRES) w4|=1;
 	}
 	if (debug)
+	{
 		cout<<"bloc at "<<hex<<(u64)ad_bloc<<" : occurrences of bytes above threshold "
-		<<dec<<THRES<<" : "<<hex<<w1<<w2<<w3<<w4<<endl;
+		<<dec<<THRES<<" : ";
+		Show();
+	}
 }
 
+void ByteOccurrence::Show()
+{
+	char buf[1024];
+	sprintf(buf,"%016lx,%016lx,%016lx,%016lx",w1,w2,w3,w4);
+	cout<<buf<<endl;
+}

@@ -20,8 +20,9 @@ public:
 	u64 w4;
 
 private:
-	void Precalc();
-	u8 CountOnes(u16 ones_and_zeros);
+	void Precalc();						// precalc of number of 1 in each u16 => precalc_bit_count_table_
+	u8 CountOnes(u16 ones_and_zeros);	// count ones in a u16
+	void Show();						// show bitmap of occurrences
 
 	static vector<u8> precalc_bit_count_table_;
 	static u32 count_;
