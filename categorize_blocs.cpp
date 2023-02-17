@@ -37,7 +37,7 @@ u8 ByteOccurrence::CountOnes(u16 ones_and_zeros)
 	return cp;
 }
 
-u16 ByteOccurrence::Compare(const ByteOccurrence &second)
+u16 ByteOccurrence::Compare(const ByteOccurrence &second) const
 {
 	u16 cp=0;
 	u64 ws[4];

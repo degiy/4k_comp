@@ -1,7 +1,6 @@
 #include "common.h"
 #include "compressor.h"
-#include "categorize_blocs.h"
-#include "hash_table_3bytes.h"
+#include "ttl_table.h"
 
 #include <iostream>
 #include <vector>
@@ -15,6 +14,7 @@ Compressor::Compressor(vector<string> &input_files)
 
 	files_.resize(input_files.size());
 
+	// map all files in memory
 	u32 id_file=0;
 	u32 id_bloc=0;
 	File *pf=nullptr;
@@ -27,14 +27,16 @@ Compressor::Compressor(vector<string> &input_files)
 		id_file++;
 	}
 	last_bloc_id_=id_bloc;
+
+	// find identical blocs
 	SameBlocs();
 
-	ByteOccurrence bo[last_bloc_id_];
+	// caracterize blocs and compare to others
+	TTLTable tt(10,5,2);
 	for (u32 i=0;i<last_bloc_id_;i++)
 	{
-		bo[i].ParseBloc(AddressByGlobalBlocId(i));
-		HashTable3B h;
-		h.ProcessBloc(AddressByGlobalBlocId(i));
+		TTLEntry te(i,AddressByGlobalBlocId(i));
+		tt.Add(te);
 	}
 	//ParseBlocs();
 }

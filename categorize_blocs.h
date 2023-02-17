@@ -12,7 +12,7 @@ class ByteOccurrence
 {
 public:
 	ByteOccurrence();
-	u16 Compare(const ByteOccurrence &second);	// do an AND on all the bits and return the occurrence of ones
+	u16 Compare(const ByteOccurrence &second) const;	// do an AND on all the bits and return the occurrence of ones
 	void ParseBloc(void *ad_bloc);				// read 4k bloc and calculate bytes occurrences
 	u64 w1;
 	u64 w2;
@@ -27,8 +27,6 @@ private:
 	static vector<u8> precalc_bit_count_table_;
 	static u32 count_;
 };
-
-
 
 
 #endif /* CATEGORIZE_BLOCS_H_ */
