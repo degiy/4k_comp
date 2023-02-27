@@ -31,7 +31,7 @@ u8 ByteOccurrence::CountOnes(u16 ones_and_zeros)
 	u8 cp=0;
 	while(ones_and_zeros)
 	{
-		if (ones_and_zeros&1) cp++;
+		cp+=(ones_and_zeros&1);
 		ones_and_zeros>>=1;
 	}
 	return cp;
@@ -47,7 +47,7 @@ u16 ByteOccurrence::Compare(const ByteOccurrence &second) const
 	ws[3]=w4&second.w4;
 
 	u16* pt=(u16*)(&ws[0]);
-	u16* pte=(u16*)( (u64)((&ws[0])+32) );
+	u16* pte=pt+16;
 	while (pt!=pte)
 	{
 		cp+=precalc_bit_count_table_[*pt++];

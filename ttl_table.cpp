@@ -1,4 +1,5 @@
 #include "ttl_table.h"
+#include <iostream>
 
 // calculate bitmap and 3 bytes hashtable
 TTLEntry::TTLEntry(u32 id,void *ad) : id_page_(id)
@@ -28,21 +29,48 @@ void TTLTable::Add(const TTLEntry &ent)
 	// insert into multimap
 	pair<u32,TTLEntry> p(default_ttl_+water_mark_,ent);
 	insert(p);
+	// increase water mark
+	water_mark_++;
 }
 
-const TTLEntry& TTLTable::BestMatch(const TTLEntry &ent) const
+const TTLEntry& TTLTable::BestMatch(const TTLEntry &ent)
 {
 	u16 max=0;
-	auto pmax=begin();
+	multimap<u32,TTLEntry>::iterator pmax=end();
 
+	if (verbose)
+		cout<<"matches for bloc "<<dec<<ent.id_page_<<endl;
 	for(auto pt=begin();pt!=end();++pt)
 	{
-		u16 nb=ent.bitmap_.Compare((*pt).second.bitmap_);
+		u16 nb=ent.bitmap_.Compare(pt->second.bitmap_);
 		if (nb>max)
 		{
 			max=nb;
 			pmax=pt;
+			if (verbose)
+				cout<<"  - new max with "<<dec<<max<<" matches (- "
+				<<(ent.id_page_-pt->second.id_page_)<<")"<<endl;
 		}
 	}
-	return (*pmax).second;
+	if (pmax != end())
+	{
+		// increase credit of best entry (not optimum, because of recopy)
+		auto npmax = insert(make_pair(pmax->first + bonus_, pmax->second));
+		erase(pmax);
+		return npmax->second;
+	}
+	else
+	{
+		// return the input value as we don't have other blocs to compare to
+		return ent;
+	}
+}
+
+void TTLTable::Dump()
+{
+	cout<<"TTL table is "<<size()<<" elements, water mark at "<<water_mark_<<endl;
+	for(auto pt=begin();pt!=end();++pt)
+	{
+		cout<<" -ttl "<<pt->first<<" for bloc "<<pt->second.id_page_<<endl;
+	}
 }

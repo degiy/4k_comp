@@ -32,12 +32,14 @@ Compressor::Compressor(vector<string> &input_files)
 	SameBlocs();
 
 	// caracterize blocs and compare to others
-	TTLTable tt(10,5,2);
+	TTLTable tt(128,64,2);
 	for (u32 i=0;i<last_bloc_id_;i++)
 	{
 		TTLEntry te(i,AddressByGlobalBlocId(i));
 		tt.Add(te);
 	}
+	if (verbose)
+		tt.Dump();
 	//ParseBlocs();
 }
 

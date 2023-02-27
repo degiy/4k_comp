@@ -32,9 +32,10 @@ class TTLTable : multimap<u32,TTLEntry>
 public:
 	TTLTable(u32 nb_max,u32 ttl,u32 bonus);
 	void Add(const TTLEntry &ent);
+	void Dump();
 
 private:
-	const TTLEntry& BestMatch(const TTLEntry &ent) const;
+	const TTLEntry& BestMatch(const TTLEntry &ent);
 	u32 nb_max_entries_;	// max entries of multimap : once full we remove the one with the lower key
 	u32 default_ttl_;		// advance given from watermark to remains alive in the table
 	u32 water_mark_;		// a counter who increase at each bloc insertion (never stops)
