@@ -5,6 +5,7 @@
 #include "hash_table_3bytes.h"
 
 #include <map>
+#include <memory>
 
 using namespace std;
 
@@ -25,17 +26,19 @@ private:
 	friend class TTLTable;
 };
 
+typedef unique_ptr<TTLEntry> pTTLEntry;
+
 // multimap for ttl in pages, indexed by TTL value (as we need to purge less used pages)
 // a maximum number of page are kept inside this table
-class TTLTable : multimap<u32,TTLEntry>
+class TTLTable : multimap<u32,pTTLEntry>
 {
 public:
 	TTLTable(u32 nb_max,u32 ttl,u32 bonus);
-	void Add(const TTLEntry &ent);
+	void Add(pTTLEntry p_ent);
 	void Dump();
 
 private:
-	const TTLEntry& BestMatch(const TTLEntry &ent);
+	const pTTLEntry& BestMatch(const pTTLEntry& p_ent);
 	u32 nb_max_entries_;	// max entries of multimap : once full we remove the one with the lower key
 	u32 default_ttl_;		// advance given from watermark to remains alive in the table
 	u32 water_mark_;		// a counter who increase at each bloc insertion (never stops)

@@ -35,8 +35,8 @@ Compressor::Compressor(vector<string> &input_files)
 	TTLTable tt(128,64,2);
 	for (u32 i=0;i<last_bloc_id_;i++)
 	{
-		TTLEntry te(i,AddressByGlobalBlocId(i));
-		tt.Add(te);
+		pTTLEntry p_te= make_unique<TTLEntry>(i,AddressByGlobalBlocId(i));
+		tt.Add(move(p_te));
 	}
 	if (verbose)
 		tt.Dump();
