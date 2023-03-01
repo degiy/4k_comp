@@ -49,6 +49,10 @@ private:
 							// must be chosen in relation with nb_max_entries_ (e.g. at least smaller)
 };
 
+// Best match could return a list of the N most look-alike blocs in order to populate the "past" from current
+//  bloc by optimizing the chance to get on past occurrence of 3 bytes. Right now it's only a 4K past
+//  (or 8K when we reach the end of the current bloc). So better choose the right one to make its past.
+// As LZ77 use 32K past, we should use at least 8 blocs as possible past.
 
 
 #endif /* TTL_TABLE_H_ */

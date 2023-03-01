@@ -1,6 +1,6 @@
 #include "hash_table_3bytes.h"
 
-HashTable3B::HashTable3B(): table_entries_(4096,{0,0,0,0,0}), the_hash_table_(4096,0)
+HashTable3B::HashTable3B(): the_hash_table_(4096,0), table_entries_(4096,{0,0,0})
 {
 }
 
@@ -12,23 +12,23 @@ void HashTable3B::ProcessBloc(void *ad_bloc)
 	// (so entry 0 is not used to avoid substracting one between next and table entry)
 	for (u16 i=1;i<=4094;i++)
 	{
-		// struct feeding
-		Entry3B *pabc=&table_entries_[i];
-		pabc->a=bl[i-1];
-		pabc->b=bl[i];
-		pabc->c=bl[i+1];
-		pabc->pos=(i-1)&255;
-		pabc->next=((i+1)&0x700)<<8;
+		u16 next=0;		// by default we will be at the end of list, so no next
 
 		// index work
-		u16 hash=CalcHash(bl);
+		u16 hash=CalcHash(bl+i-1);
 		if (the_hash_table_[hash])
 		{
-			// we need to insert the new (a,b,c) triplet at beginning of linked list
-			pabc->next|=the_hash_table_[hash];
+			// as we need to take the place as first entry of a current entry
+			// we need to reference it as next
+			next=the_hash_table_[hash];
 		}
-		// else or anyway we need to place the index of pabc in the hash table index
+		// anyway we need to place the new entry in the hash table (as first entry for index)
 		the_hash_table_[hash]=i;	// right on pabc
+
+		// put next and pos on a 3 bytes word
+		// struct feeding
+		Entry3B *pabc=&table_entries_[i];
+		pabc->set_pos_and_next(i-1,next);
 	}
 }
 

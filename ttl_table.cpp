@@ -30,6 +30,16 @@ void TTLTable::Add(pTTLEntry p_ent)
 	emplace(make_pair(default_ttl_+water_mark_,move(p_ent)));
 	// increase water mark
 	water_mark_++;
+
+	// now we need to choose a compression algorithm
+	if (p_match!=p_ent)
+	{
+		cout<<"different"<<endl;
+	}
+	else
+	{
+		cout<<"first"<<endl;
+	}
 }
 
 const pTTLEntry& TTLTable::BestMatch(const pTTLEntry &p_ent)
