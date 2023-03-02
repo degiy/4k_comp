@@ -13,20 +13,24 @@ using namespace std;
 // - page id
 // - bitmap of byte occurence above a threshold
 // - hashtable with all 3 consecutive bytes
+
+typedef unique_ptr<class TTLEntry> pTTLEntry;
+
 class TTLEntry
 {
 public:
 	TTLEntry(u32 id,void *ad);
+	void LZ77();								// mostly for first bloc (no ancestry)
+	void LZ77WithPast(const pTTLEntry& p_past);	// with 2 blocs (current one and best ancestry)
 
 private:
 	u32 id_page_;
+	void* add_;
 	ByteOccurrence bitmap_;
 	HashTable3B ht_3b_;
 
 	friend class TTLTable;
 };
-
-typedef unique_ptr<TTLEntry> pTTLEntry;
 
 // multimap for ttl in pages, indexed by TTL value (as we need to purge less used pages)
 // a maximum number of page are kept inside this table

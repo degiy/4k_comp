@@ -1,5 +1,11 @@
 #include "hash_table_3bytes.h"
 
+ U3BParse::U3BParse(HashTable3B* table,void* ad_bloc) : table_(table), bloc_((u8*)ad_bloc)
+{
+	// mark end of bloc
+	p_end_=bloc_+4096;
+}
+
 HashTable3B::HashTable3B(): the_hash_table_(4096,0), table_entries_(4096,{0,0,0})
 {
 }
